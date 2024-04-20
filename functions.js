@@ -96,3 +96,11 @@ export const getPagination = async (page) => {
     return Array.from(links).map((link) => link.href);
   });
 };
+
+export const loadAndSearch = async (page, url, search) => {
+  await goTo(page, url);
+  await setViewport(page, 1080, 1920);
+  await type(page, ".atg_store_searchInput", search);
+  await pressEnter(page);
+  await waitForNavigation(page);
+}
