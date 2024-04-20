@@ -10,15 +10,16 @@ import {
   loadAndSearch
 } from "./functions.js";
 
+const BASE_URL = "https://www.cotodigital3.com.ar/sitios/cdigi/"
+const SEARCH = "palta"
+let fullProducts = [];
+
 const main = async () => {
-  console.clear();
-  console.log("Starting the app...\n");
   // const browser = await launch({ headless: false, slowMo: 20 });
   const browser = await launch();
   const page = await browser.newPage();
-  let fullProducts = [];
 
-  await loadAndSearch(page,"https://www.cotodigital3.com.ar/sitios/cdigi/","palta")
+  await loadAndSearch(page, BASE_URL, SEARCH)
 
   const pages = await getPagination(page);
 
