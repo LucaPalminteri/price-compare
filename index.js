@@ -7,6 +7,7 @@ import {
   pressEnter,
   waitForNavigation,
   getPagination,
+  loadAndSearch
 } from "./functions.js";
 
 const main = async () => {
@@ -17,15 +18,7 @@ const main = async () => {
   const page = await browser.newPage();
   let fullProducts = [];
 
-  await goTo(page, "https://www.cotodigital3.com.ar/sitios/cdigi/");
-
-  await setViewport(page, 1080, 1920);
-
-  await type(page, ".atg_store_searchInput", "palta");
-
-  await pressEnter(page);
-
-  await waitForNavigation(page);
+  await loadAndSearch(page,"https://www.cotodigital3.com.ar/sitios/cdigi/","palta")
 
   const pages = await getPagination(page);
 
