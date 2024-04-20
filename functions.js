@@ -9,7 +9,7 @@ export const calculateProducts = async (page) => {
       let priceDiscount = 0;
       let name = product.querySelector(".descrip_full").innerText.trim();
       let image = product.querySelector("img").getAttribute("src").trim();
-      let precioLitro = product.querySelector(".unit").innerText.trim();
+      let priceUnit = product.querySelector(".unit").innerText.trim();
       let hasDiscount = false;
 
       if (product.querySelector(".price_discount") !== null) {
@@ -20,10 +20,12 @@ export const calculateProducts = async (page) => {
 
       response.push({
         priceString: price,
-        price: parseInt(price.replace("$", "").replace(/\./g, "").replace(/\./, ".").replace(",", ".")),
+        price: parseInt(
+          price.replace("c/u", "").replace("$", "").replace(/\./g, "").replace(/\./, ".").replace(",", ".")
+        ),
         name,
         image,
-        precioLitro,
+        priceUnit,
         hasDiscount,
       });
     });
@@ -103,4 +105,4 @@ export const loadAndSearch = async (page, url, search) => {
   await type(page, ".atg_store_searchInput", search);
   await pressEnter(page);
   await waitForNavigation(page);
-}
+};
