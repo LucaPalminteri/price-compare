@@ -20,22 +20,13 @@ const main = async () => {
   const page = await browser.newPage();
 
   await loadAndSearch(page, BASE_URL, SEARCH)
-
   const pages = await getPagination(page);
 
-  const products = await calculateProducts(page);
-
-  fullProducts.push(...products);
-
-  if (pages.length > 1) await page.click(`#atg_store_pagination > li:nth-child(2) > a`);
-
-  for (let index = 3; index <= pages.length; index++) {
+  for (let index = 1; index <= pages.length; index++) {
     await page.waitForSelector("#products > li");
     const products = await calculateProducts(page);
-
     fullProducts.push(...products);
-
-    await page.click(`#atg_store_pagination > li:nth-child(${index}) > a`);
+    await page.click(`#atg_store_pagination > li:nth-child(${index + 1}) > a`);
   }
 
   console.log(fullProducts);
