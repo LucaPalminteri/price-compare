@@ -17,7 +17,7 @@ This project is a web scraping application that compares the prices of products 
 ## Usage
 
 1. Configure the websites to scrape in the `config.js` file.
-2. Run the application: `node index.js`
+2. Run the application: `npm run dev`
 3. Enter the product you want to search for.
 4. View the scraped data and compare prices.
 

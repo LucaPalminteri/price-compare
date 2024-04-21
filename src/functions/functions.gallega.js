@@ -1,22 +1,5 @@
 import { loadAndSearch, getPagination } from "./functions.js";
-
-const SEARCH_INPUT = ".atg_store_searchInput";
-const PAGINATION_SELECTOR = "#atg_store_pagination > li > a";
-const PRODUCTS_SELECTOR = "#products > li";
-const PRICE_SELECTOR = ".atg_store_newPrice";
-const TITLE_SELECTOR = ".descrip_full";
-const IMAGE_SELECTOR = ".atg_store_productImage > img";
-const PRICE_UNIT_SELECTOR = ".unit";
-const PRICE_DISCOUNT_SELECTOR = ".price_discount";
-
-const SELECTORS = {
-  productsSelector: PRODUCTS_SELECTOR,
-  priceSelector: PRICE_SELECTOR,
-  titleSelector: TITLE_SELECTOR,
-  imageSelector: IMAGE_SELECTOR,
-  priceUnitSelector: PRICE_UNIT_SELECTOR,
-  priceDiscountSelector: PRICE_DISCOUNT_SELECTOR,
-};
+import { SEARCH_INPUT, PAGINATION_SELECTOR, PRODUCTS_SELECTOR, SELECTORS } from "../config/config.gallega.js";
 
 export const calculateProducts = async (page, selectors) => {
   return await page.evaluate((selectors) => {
@@ -54,7 +37,7 @@ export const calculateProducts = async (page, selectors) => {
   }, selectors);
 };
 
-export const getProducsCoto = async (page, url, search) => {
+export const getProducsGallega = async (page, url, search) => {
   let fullProducts = [];
 
   await loadAndSearch(page, url, SEARCH_INPUT, search);
@@ -65,8 +48,7 @@ export const getProducsCoto = async (page, url, search) => {
     await page.waitForSelector(PRODUCTS_SELECTOR);
     const products = await calculateProducts(page, SELECTORS);
     fullProducts.push(...products);
-    if (pages.length > 1 && pages.length != index)
-      await page.click(`#atg_store_pagination > li:nth-child(${index + 1}) > a`);
+    if (pages.length > 1 && pages.length != index) await page.click(`.TxtPagina > li:nth-child(${index + 1}) > a`);
   }
 
   console.clear();
@@ -85,4 +67,8 @@ export const getProducsCoto = async (page, url, search) => {
   });
 
   return fullProducts;
+};
+
+const cickNextPage = async (page, index, paginationSelector) => {
+  await page.click(`.TxtPagina > li:nth-child(${index + 1}) > a`);
 };

@@ -67,6 +67,7 @@ export const getPagination = async (page, selectorPagination) => {
   console.log("-> Calculating the pages to retrieve information...");
   return await page.evaluate((selectorPagination) => {
     const links = document.querySelectorAll(selectorPagination);
-    return Array.from(links).map((link) => link.href);
+    if (links.length === 0) return [];
+    else return Array.from(links).map((link) => link.href);
   }, selectorPagination);
 };

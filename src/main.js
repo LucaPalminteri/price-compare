@@ -1,5 +1,6 @@
 import { launch } from "puppeteer";
-import { getProducsCoto } from "./utils/functionsCoto.js";
+import { getProducsCoto } from "./functions/functions.coto.js";
+import { getProducsGallega } from "./functions/functions.gallega.js";
 
 const BASE_URL_COTO = "https://www.cotodigital3.com.ar/sitios/cdigi/";
 const BASE_URL_GALLEGA = "https://www.lagallega.com.ar/Login.asp";
@@ -12,9 +13,10 @@ export const main = async (search) => {
   let fullProducts = [];
 
   let cotoProducts = await getProducsCoto(pageCotoDigital, BASE_URL_COTO, search);
-  //let gallegaProducts = await getProducsCoto(pageLaGallega, BASE_URL_GALLEGA, search);
+  // let gallegaProducts = await getProducsGallega(pageLaGallega, BASE_URL_GALLEGA, search);
 
   fullProducts.push(...cotoProducts);
+  // fullProducts.push(...gallegaProducts);
 
   await browser.close();
 
