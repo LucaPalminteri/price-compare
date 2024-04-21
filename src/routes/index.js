@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { main } from "../index.js";
+import { main } from "../main.js";
 const router = Router();
 
 router.post("/test", async (req, res) => {

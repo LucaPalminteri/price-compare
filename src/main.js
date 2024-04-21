@@ -1,18 +1,22 @@
-import express from "express";
-import indexRoutes from "./routes/index.js";
-import cors from "cors";
-import bodyParser from "body-parser";
+import { launch } from "puppeteer";
+import { getProducsCoto } from "./utils/functionsCoto.js";
 
-const app = express();
+const BASE_URL_COTO = "https://www.cotodigital3.com.ar/sitios/cdigi/";
+const BASE_URL_GALLEGA = "https://www.lagallega.com.ar/Login.asp";
 
-app.set("port", process.env.PORT || 4000);
+export const main = async (search) => {
+  // const browser = await launch({ headless: false, slowMo: 50 });
+  const browser = await launch();
+  const pageCotoDigital = await browser.newPage();
+  const pageLaGallega = await browser.newPage();
+  let fullProducts = [];
 
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+  let cotoProducts = await getProducsCoto(pageCotoDigital, BASE_URL_COTO, search);
+  //let gallegaProducts = await getProducsCoto(pageLaGallega, BASE_URL_GALLEGA, search);
 
-app.use(indexRoutes);
+  fullProducts.push(...cotoProducts);
 
-app.listen(app.get("port"), () => {
-  console.log(`Server on port ${app.get("port")}`);
-});
+  await browser.close();
+
+  return fullProducts;
+};

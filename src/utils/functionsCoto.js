@@ -69,7 +69,8 @@ export const getProducsCoto = async (page, url, search) => {
       await page.click(`#atg_store_pagination > li:nth-child(${index + 1}) > a`);
   }
 
-  console.log(fullProducts);
+  console.clear();
+  console.log("Response ok!");
   console.log(`Total products: ${fullProducts.length}`);
   console.log(`Total pages: ${pages.length}`);
 
