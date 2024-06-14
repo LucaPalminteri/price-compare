@@ -1,5 +1,6 @@
 import { loadAndSearch, getPagination } from "./functions.bk.js";
-import { SEARCH_INPUT, PAGINATION_SELECTOR, PRODUCTS_SELECTOR, SELECTORS } from "../config/config.gallega.js";
+import { SEARCH_INPUT, PAGINATION_SELECTOR, PRODUCTS_SELECTOR, SELECTORS } from "../config/config.coto.js";
+import { performance } from "perf_hooks";
 
 export const calculateProducts = async (page, selectors) => {
   return await page.evaluate((selectors) => {
@@ -37,25 +38,20 @@ export const calculateProducts = async (page, selectors) => {
   }, selectors);
 };
 
-export const getProducsGallega = async (page, url, search) => {
+export const getProducsCoto = async (page, url, search) => {
   let fullProducts = [];
 
   await loadAndSearch(page, url, SEARCH_INPUT, search);
   let pages = await getPagination(page, PAGINATION_SELECTOR);
-  console.log({ pages });
   if (pages.length === 0) pages.push({ page: 1 });
 
   for (let index = 1; index <= pages.length; index++) {
     await page.waitForSelector(PRODUCTS_SELECTOR);
     const products = await calculateProducts(page, SELECTORS);
     fullProducts.push(...products);
-    if (pages.length > 1 && pages.length != index) await page.click(`.TxtPagina > li:nth-child(${index + 1}) > a`);
+    if (pages.length > 1 && pages.length != index)
+      await page.click(`#atg_store_pagination > li:nth-child(${index + 1}) > a`);
   }
-
-  console.clear();
-  console.log("Response ok!");
-  console.log(`Total products: ${fullProducts.length}`);
-  console.log(`Total pages: ${pages.length}`);
 
   fullProducts.sort((a, b) => {
     if (a.hasDiscount && !b.hasDiscount) {
@@ -67,9 +63,7 @@ export const getProducsGallega = async (page, url, search) => {
     }
   });
 
-  return fullProducts;
-};
+  console.clear();
 
-const cickNextPage = async (page, index, paginationSelector) => {
-  await page.click(`.TxtPagina > li:nth-child(${index + 1}) > a`);
+  return fullProducts;
 };
